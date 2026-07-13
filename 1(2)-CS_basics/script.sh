@@ -51,11 +51,9 @@ else
         WIN_INSTALL_PATH="$(cygpath -w "$USERPROFILE/miniconda3")"
         ./"$INSTALLER" //InstallationType=JustMe //RegisterPython=0 //S //D="$WIN_INSTALL_PATH"
         
-        # 🔥 [수정 핵심 1] C:\ 경로를 /c/ 유닉스 경로로 완벽하게 변환하여 콜론 충돌 차단
         MINICONDA_UNIX_PATH="$(cygpath -u "$WIN_INSTALL_PATH")"
         export PATH="$MINICONDA_UNIX_PATH/Scripts:$MINICONDA_UNIX_PATH/condabin:$PATH"
         
-        # 🔥 [수정 핵심 2] eval hook이 튕길 가능성을 차단하고 conda 변수를 쉘에 다이렉트 주입
         if [ -f "$MINICONDA_UNIX_PATH/etc/profile.d/conda.sh" ]; then
             source "$MINICONDA_UNIX_PATH/etc/profile.d/conda.sh"
         fi
@@ -77,7 +75,7 @@ fi
 # Conda 환셩 생성 및 활성화
 ## TODO
 conda create --name myenv python==3.11 -y
-conda activate myenv
+source activate myenv
 
 ## 건드리지 마세요! ##
 python_env=$(python -c "import sys; print(sys.prefix)")
