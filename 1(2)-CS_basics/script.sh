@@ -47,11 +47,19 @@ else
         INSTALLER="miniconda_win.exe"
         curl --retry 3 -sL "$URL" -o "$INSTALLER"
         
-        WIN_INSTALL_PATH="$(cygpath -w "$USERPROFILE/Miniconda3")"
+        # 가상환경 로그에 찍힌 소문자(miniconda3) 경로 규격 반영
+        WIN_INSTALL_PATH="$(cygpath -w "$USERPROFILE/miniconda3")"
         ./"$INSTALLER" //InstallationType=JustMe //RegisterPython=0 //S //D="$WIN_INSTALL_PATH"
         
-        export PATH="$USERPROFILE/Miniconda3/Scripts:$USERPROFILE/Miniconda3/condabin:$PATH"
-        eval "$(conda shell.bash hook)"
+        # 🔥 [수정 핵심 1] C:\ 경로를 /c/ 유닉스 경로로 완벽하게 변환하여 콜론 충돌 차단
+        MINICONDA_UNIX_PATH="$(cygpath -u "$WIN_INSTALL_PATH")"
+        export PATH="$MINICONDA_UNIX_PATH/Scripts:$MINICONDA_UNIX_PATH/condabin:$PATH"
+        
+        # 🔥 [수정 핵심 2] eval hook이 튕길 가능성을 차단하고 conda 변수를 쉘에 다이렉트 주입
+        if [ -f "$MINICONDA_UNIX_PATH/etc/profile.d/conda.sh" ]; then
+            source "$MINICONDA_UNIX_PATH/etc/profile.d/conda.sh"
+        fi
+        
         rm -f "$INSTALLER"
     else
         echo "[ERROR] 운영체제 오류"
