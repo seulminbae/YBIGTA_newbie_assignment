@@ -1,1 +1,2 @@
-Success: no issues found in 5 source files
+4_5670.py:66: error: Incompatible types in assignment (expression has type "None", variable has type "int")  [assignment]
+Found 1 error in 1 file (checked 10 source files)
