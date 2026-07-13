@@ -1,0 +1,26 @@
+name: OS 무관 미니콘다 설치 스크립트 테스트
+
+on: [push, pull_request]
+
+jobs:
+  test-on-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 리눅스에서 스크립트 실행 테스트
+        run: |
+          chmod +x script.sh
+          ./script.sh
+
+  test-on-windows:
+    runs-on: windows-latest
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 윈도우 Git Bash 환경에서 스크립트 실행 테스트
+        shell: bash
+        run: |
+          ./script.sh
