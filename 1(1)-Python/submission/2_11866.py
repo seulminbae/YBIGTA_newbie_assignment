@@ -50,7 +50,7 @@ def josephus_problem(n: int, k: int) -> list[int]:
     """
     q=create_circular_queue(n)
     result=[]
-
+    
     while len(q)!=0:
         a=rotate_and_remove(q,k)
         result.append(a)
