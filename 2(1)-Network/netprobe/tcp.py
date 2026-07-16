@@ -72,7 +72,7 @@ def connect_with_fallback(ips: list[str], port: int, timeout: float, prefer: str
     # TODO 1: prefer 정책에 따라 v4, v6 주소의 우선순위가 반영된 ordered 리스트를 만드세요.
     # HINT: ':' 가 포함된 IP는 IPv6, '.' 이 포함된 IP는 IPv4 입니다.
     ordered = []
-    ipv4_ips = [ip for ip in ips if ":" not in ip]
+    ipv4_ips = [ip for ip in ips if "." in ip]
     ipv6_ips = [ip for ip in ips if ":" in ip]
     if prefer == "ipv4":
         ordered = ipv4_ips + ipv6_ips
